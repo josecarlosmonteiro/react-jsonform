@@ -1,0 +1,30 @@
+{
+  "formId": "18042022",
+  "form_version": "v1",
+  "formSections": [
+    {
+      "id": "secaoDadosPessoais",
+      "title": "Dados pessoais",
+      "children": [
+        {
+          "id": "nameField",
+          "type": "text",
+          "title": "Nome completo",
+          "placeholder": "José da Silva...",
+          "validations": {
+            "required": true
+          }
+        },
+        {
+          "id": "ageField",
+          "type": "number",
+          "title": "Idade",
+          "placeholder": "18...",
+          "validations": {
+            "required": true
+          }
+        }
+      ]
+    }
+  ]
+}
