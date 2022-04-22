@@ -21,7 +21,8 @@
           "title": "Idade",
           "placeholder": "18...",
           "validations": {
-            "required": true
+            "required": true,
+            "min": 18
           }
         }
       ]

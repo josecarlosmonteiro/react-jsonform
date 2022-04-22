@@ -1,43 +1,43 @@
 import React, { BaseSyntheticEvent, createContext, useEffect, useState } from 'react';
 import { JsonFormProps, JsonFormSectionProps } from './EngineInterfaces';
 import FormSection from './FormSection';
+import useValidateForm from './useValidateForm';
 
 export const FormContext = createContext<Record<any, any>>({});
 
 export default function FormRender(props: JsonFormProps) {
   const { formId, formSections: sections } = props;
   const [formValues, setFormValues] = useState<any>({});
-  const [formErrors, setFormErrors] = useState<any>({});
 
+  const { validate, formErrors } = useValidateForm();
 
-  const handleFormValues = (event: BaseSyntheticEvent) => {
+  const handleFormValues = (event: BaseSyntheticEvent, validations: any) => {
     event.persist();
-    const { target: { name, value } } = event;
-    setFormValues({ ...formValues, [name]: value });
-    console.info(formValues);
 
-    delete formErrors[name];
+    const { target: { name, value } } = event;
+    const myState = { ...formValues, [name]: { value, validations } };
+
+    setFormValues(myState);
+    validate(myState);
   }
 
   const handleSubmit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
-    if (Object.keys(formErrors).length <= 0) {
-      console.log("Formulário enviado!", formValues);
-    } else {
-      console.error("Envio não permitido! Conserte todos os campos preenchidos incorretamente.");
-    }
+    console.log('values:', formValues);
+    console.log('errors:', formErrors);
   }
 
-  const handleInvalidForm = (event: BaseSyntheticEvent) => {
+  const handleInvalidSubmit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
-    const { target: { name } } = event;
+    const { target: { name, value } } = event;
+    console.log(name, value)
 
-    setFormErrors({ ...formErrors, [name]: true });
+    validate({ [name]: value });
   }
 
   return (
     <div>
-      <form id={formId} onSubmit={handleSubmit} onInvalid={handleInvalidForm} >
+      <form id={formId} onSubmit={handleSubmit} onInvalid={handleInvalidSubmit} >
         <FormContext.Provider value={{ handleFormValues, formErrors }}>
           {
             sections.length > 0 &&

@@ -3,7 +3,7 @@ export interface EngineFormComponent {
   type: string,
   title?: string,
   placeholder?: string,
-  validations?: Record<any, string | boolean>
+  validations?: Record<string, any>
 }
 
 export interface JsonFormSectionProps {
@@ -16,4 +16,8 @@ export interface JsonFormProps {
   formId: string,
   form_version: string,
   formSections: JsonFormSectionProps[],
+}
+
+export interface ErrorMessageProps {
+  message?: string,
 }

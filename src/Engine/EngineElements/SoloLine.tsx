@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React, { BaseSyntheticEvent, useContext } from 'react';
 import { FormContext } from '..';
 import { EngineFormComponent } from '../EngineInterfaces';
 
 export default function SoloLine(props: EngineFormComponent) {
   const { id, validations, placeholder, type } = props;
-  const { handleFormValues, formErrors } = useContext(FormContext);
+  const { handleFormValues } = useContext(FormContext);
 
   return (
     <>
@@ -13,11 +13,9 @@ export default function SoloLine(props: EngineFormComponent) {
         name={id}
         type={type}
         placeholder={placeholder}
-        onChange={handleFormValues}
+        autoFocus
+        onChange={(event: BaseSyntheticEvent) => handleFormValues(event, validations)}
         {...validations} />
-      {
-        formErrors[id] && <p>Campo inválido!</p>
-      }
     </>
   )
 }
